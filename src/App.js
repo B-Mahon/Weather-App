@@ -15,7 +15,7 @@ function App(){
     errorMsg:undefined
  });
 
-  const API_KEY='b882f82bc47facbfde0946d25efaec63'
+  const API_KEY=process.env.REACT_APP_API_KEY;
   
 
   const getWeather = async(zip) => {
