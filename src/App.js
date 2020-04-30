@@ -16,27 +16,19 @@ function App(){
  });
 
   const API_KEY=process.env.REACT_APP_API_KEY;
-  
-
   const getWeather = async(zip) => {
     zip=zip.trim();  
     if(zip === ''){
       setWeather({errorMsg:"No zip code value entered"});
      }
-    
     else if(isNaN(zip) === true){
       setWeather({errorMsg:"Zip code can only contain numeric values"}); 
     }
-
     else{     
       isLoading(load=true);
       try{
-        
-        //promises if error jump to catch block 
         let apiCall = await fetch(`https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?zip=${zip},us&appid=${API_KEY}&units=imperial`);
-        let data = await apiCall.json();
-        
-        //if no errors set the weather 
+        let data = await apiCall.json();      
         setWeather({
         city:data.name,
         temp:data.main.temp,
@@ -46,32 +38,22 @@ function App(){
        }
       catch (e){
         setWeather({errorMsg:'Invalid zip code'});        
-      } 
-      
-      
-
+      }     
     isLoading(load=false);
-  }
-
-    
-    
-  }
-
-  return(
-    
+  }    
+}
+  return( 
       <Container>
       <Row>
-        <Col xs="5" className="title-container">
+        <Col sm="5" xs="12" className="title-container">
           <Heading/>
         </Col>
-        <Col xs="7" className="form-container">
+        <Col sm="7" xs="12" className="form-container">
           <Form getWeather={getWeather}/>
           {load?<Spinner animation="border" variant="primary" />:<Weather city={weather.city} humidity={weather.humidity} precp={weather.precp} temp={weather.temp} errorMsg={weather.errorMsg}/>}
         </Col>
       </Row>
     </Container>
-
     );
 }
-
 export default App;
